@@ -33,7 +33,7 @@ interface RootLayoutProps {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <>
-      <html lang="en" suppressHydrationWarning>
+      <html lang="es" suppressHydrationWarning>
         <head />
         <body
           className={cn(
@@ -41,7 +41,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
             fontSans.variable
           )}
         >
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
             <RecoilRoot>
               <div className="relative flex min-h-screen flex-col">
                 <SiteHeader />
