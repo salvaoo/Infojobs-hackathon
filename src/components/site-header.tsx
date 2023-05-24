@@ -1,5 +1,7 @@
 'use client'
 
+import { useEffect } from "react"
+import { cookies } from 'next/headers';
 import Link from "next/link"
 import { useRecoilState } from "recoil"
 
@@ -14,41 +16,19 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { sessionState } from "@/atoms/session"
-import { useEffect } from "react"
-
-// const authCall = async () => {
-//   try {
-//     const SCOPES = "CV%2CCANDIDATE_PROFILE_WITH_EMAIL%2CCANDIDATE_READ_CURRICULUM_CVTEXT%2CCANDIDATE_READ_CURRICULUM_EDUCATION%2CCANDIDATE_READ_CURRICULUM_EXPERIENCE%2CCANDIDATE_READ_CURRICULUM_FUTURE_JOB%2CCANDIDATE_READ_CURRICULUM_PERSONAL_DATA%2CCANDIDATE_READ_CURRICULUM_SKILLS"
-//     const CLIENT = process.env.IJ_CLIENT_ID;
-//     const SECRET = process.env.IJ_CLIENT_SECRET;
-//     const REDIRECT_URL = encodeURIComponent(process.env.IJ_CALLBACK_URL ?? 'https%3A%2F%2Finfojobs-hackathon-ebon.vercel.app%2Fapi%2Fauth%2Fcallback%2Finfojobs')
-//     const AUTHTOKEN = btoa(`${CLIENT}:${SECRET}`);
-
-//     const response = await fetch(`https://www.infojobs.net/api/oauth/user-authorize/index.xhtml?scope=${SCOPES}&client_id=${CLIENT}&redirect_uri=${REDIRECT_URL}&response_type=code`, {
-//       method: 'GET',
-//       headers: {
-//         'Content-Type': 'application/json',
-//         'Authorization': `Basic ${AUTHTOKEN}`
-//       }
-//     });
-
-//     const result = await response.json();
-//     console.log(result);
-
-//     return result;
-//   } catch (err) {
-//     console.error(err);
-//     return err;
-//   }
-// }
+import { SessionType, sessionState } from "@/atoms/session"
 
 
 export function SiteHeader() {
   const [session, setSession] = useRecoilState(sessionState)
 
   useEffect(() => {
-    console.log("session: ", session)
+    const cookieStore = cookies();
+    if (cookieStore.get('session')) {
+      const auth = cookieStore.get('session')
+
+      console.log("auth", auth)
+    }
   }, [session])
 
   return (

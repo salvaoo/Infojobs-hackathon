@@ -1,3 +1,4 @@
+import { sessionState } from "@/atoms/session";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
@@ -17,11 +18,28 @@ export async function GET(request: Request) {
          "Authorization": `Basic ${authToken}`
       }
    })
-   const AccessToken = await res.json();
+   const accessToken = await res.json();
 
-   return NextResponse.json({ 
-      code: code,
-      redirectURL: redirectURL,
-      AccessToken: AccessToken
-    });
+   // If accessToken return a JSON with access_token, refresh_token, expires_in and token_type, then we save it in the lo
+
+   if (accessToken.access_token) {
+      const session = {
+         access_token: accessToken.access_token,
+         expires_in: accessToken.expires_in,
+         refresh_token: accessToken.refresh_token,
+         scope: accessToken.scope ? accessToken.scope : '',
+         token_type: accessToken.token_type ? accessToken.token_type : ''
+      }
+
+      return NextResponse.redirect('/?success=true', {
+         status: 302,
+         headers: {
+            'Set-Cookie': `session=${JSON.stringify(session)}; Path=/; HttpOnly; Secure; SameSite=Strict;`
+         }
+      });
+   }
+
+   if (accessToken.error) {
+      return NextResponse.redirect(`/?error=${accessToken.error_description}`);
+   }
 }
