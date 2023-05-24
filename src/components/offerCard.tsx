@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button"
 import {
    Card,
    CardContent,
@@ -7,11 +6,14 @@ import {
    CardHeader,
    CardTitle,
 } from "@/components/ui/card"
-import { Category, Item, offersDetailsProps } from "@/types/offers"
+import { Item, offersDetailsProps } from "@/types/offers"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
 
-const getOfferDetails = async (id: string) => {
+
+export const getOfferDetails = async (id: string) => {
    const CLIENT = process.env.IJ_CLIENT_ID;
    const SECRET = process.env.IJ_CLIENT_SECRET;
 
@@ -37,31 +39,34 @@ export async function OfferCard({ key, offer }: {
    const initial = offer.author.name.charAt(0)
 
    return (
-      <Card className="w-full" key={key}>
-         <CardHeader>
-            <div className="flex flex-row justify-start gap-5">
-               <Avatar className="w-12 h-12">
-                  <AvatarImage src={offer.author.logoUrl} />
-                  <AvatarFallback>{initial}</AvatarFallback>
-               </Avatar>
-               <div>
-                  <CardTitle>{offerDetails.title}</CardTitle>
-                  <CardDescription>{offer.author.name}</CardDescription>
+      <Link key={key} href={`/offer/${offer.id}`}>
+         <Card className="w-full hover:scale-105 duration-300 ease-in-out transition-transform" key={key}>
+            <CardHeader>
+               <div className="flex flex-row justify-start gap-5">
+                  <Avatar className="w-12 h-12">
+                     <AvatarImage src={offer.author.logoUrl} />
+                     <AvatarFallback>{initial}</AvatarFallback>
+                  </Avatar>
+                  <div>
+                     <CardTitle>{offerDetails.title}</CardTitle>
+                     <CardDescription>{offer.author.name}</CardDescription>
+                  </div>
                </div>
-            </div>
-         </CardHeader>
-         <CardContent>
-            <p className="whitespace-pre-line">{}</p>
-            <div>
-               {offerDetails.skillsList?.map((skill, index) => (
-                  <Badge key={index} className="mr-2">{skill.skill}</Badge>
-               ))}
-            </div>
-         </CardContent>
-         <CardFooter className="flex justify-between">
-            {/* <Button variant="ghost">Cancel</Button> */}
-            <Button>Aplicar</Button>
-         </CardFooter>
-      </Card>
+            </CardHeader>
+            <CardContent>
+               <p className="whitespace-pre-line line-clamp-4 cursor-pointer">{offerDetails.description}</p>
+               {offerDetails.skillsList?.length > 0 && (
+                  <div className="space-y-2 mt-3">
+                     {offerDetails.skillsList.map((skill, index) => (
+                        <Badge key={index} className="mr-2 bg-primary/10 border-primary text-primary">{skill.skill}</Badge>
+                     ))}
+                  </div>
+               )}
+            </CardContent>
+            {/* <CardFooter className="flex justify-between">
+               <Button>Aplicar</Button>
+            </CardFooter> */}
+         </Card>
+      </Link>
    )
 }

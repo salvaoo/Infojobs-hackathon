@@ -1,10 +1,6 @@
-import Link from "next/link"
-
-import { siteConfig } from "@/config/site"
-import { buttonVariants } from "@/components/ui/button"
-import StepsComponent from "@/components/steps"
 import { OffersProps } from "@/types/offers"
 import { OfferCard } from "@/components/offerCard"
+import { Container } from "@/components/layouts"
 
 const getOffers = async () => {
   const CLIENT = process.env.IJ_CLIENT_ID;
@@ -16,6 +12,9 @@ const getOffers = async () => {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Basic ${infoJobsToken}`
+    },
+    next: {
+      revalidate: 300 // revalidate every 5 minutes
     }
   })
   const offers = await res.json() as OffersProps;
@@ -27,22 +26,20 @@ export default async function IndexPage() {
 
   const offers = await getOffers();
 
-  console.log(offers);
-
   return (
     <section className="container py-6 md:py-10">
       <div className="relative grid grid-cols-3 gap-5">
-        <div className="col-span-2 bg-white shadow-xl rounded-xl min-h-screen p-8">
+        <Container className="col-span-2 min-h-screen">
           <div className="space-y-5">
             {offers?.items?.map(async (offer, index) => {
               const offerCard = await OfferCard({ key: index, offer: offer });
               return offerCard;
             })}
           </div>
-        </div>
-        <div className="sticky top-5 col-span-1 bg-white shadow-xl rounded-xl h-96 p-8">
+        </Container>
+        <Container className="sticky top-5 col-span-1 h-96">
           Profile
-        </div>
+        </Container>
       </div>
 
 
