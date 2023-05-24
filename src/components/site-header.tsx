@@ -1,9 +1,9 @@
 'use client'
 
 import { useEffect } from "react"
-import { cookies } from 'next/headers';
 import Link from "next/link"
 import { useRecoilState } from "recoil"
+import { getCookie, hasCookie } from 'cookies-next';
 
 import { siteConfig } from "@/config/site"
 import { Button, buttonVariants } from "@/components/ui/button"
@@ -23,9 +23,8 @@ export function SiteHeader() {
   const [session, setSession] = useRecoilState(sessionState)
 
   useEffect(() => {
-    const cookieStore = cookies();
-    if (cookieStore.get('session')) {
-      const auth = cookieStore.get('session')
+    if (hasCookie('session')) {
+      const auth = getCookie('session')
 
       console.log("auth", auth)
     }
