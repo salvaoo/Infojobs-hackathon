@@ -9,7 +9,7 @@ export async function GET(request: Request) {
    const encodedSecret = encodeURIComponent(SECRET ?? '');
    const authToken = btoa(`${CLIENT}:${SECRET}`);
 
-   const res = await fetch(`${process.env.IJ_AUTH_TOKEN_URL}?grant_type=authorization_code&client_id=${CLIENT}&client_secret=${encodedSecret}&code=${code}&redirect_uri=https%3A%2F%2Finfojobs-hackathon-ebon.vercel.app%2Fapi%2Fauth`, {
+   const res = await fetch(`${process.env.IJ_AUTH_TOKEN_URL}?grant_type=authorization_code&client_id=${CLIENT}&client_secret=${encodedSecret}&code=${code}&redirect_uri=https%3A%2F%2Finfojobs-hackathon-ebon.vercel.app`, {
       headers: {
          'Content-Type': 'application/json',
          'Authorization': `Basic ${authToken}`
@@ -17,5 +17,8 @@ export async function GET(request: Request) {
    })
    const AccessToken = await res.json();
 
-   return NextResponse.json({ AccessToken });
+   return NextResponse.json({ 
+      code: code,
+      AccessToken: AccessToken
+    });
 }
