@@ -24,9 +24,9 @@ export function SiteHeader() {
 
   useEffect(() => {
     if (hasCookie('session')) {
-      const auth = getCookie('session')
+      const authCookie = getCookie('session')
 
-      console.log("auth", auth)
+      console.log("authCookie: ", authCookie)
     }
   }, [session])
 
