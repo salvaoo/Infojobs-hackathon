@@ -1,4 +1,4 @@
-import { RecoilState, atom } from 'recoil';
+import { atom } from 'recoil';
 
 export const counterState = atom({
   key: "counterState", 

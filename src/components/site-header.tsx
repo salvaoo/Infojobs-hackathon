@@ -1,7 +1,10 @@
+'use client'
+
 import Link from "next/link"
+import { useRecoilState } from "recoil"
 
 import { siteConfig } from "@/config/site"
-import { buttonVariants } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 import { Icons } from "@/components/icons"
 import { MainNav } from "@/components/main-nav"
 import { ThemeToggle } from "@/components/theme-toggle"
@@ -11,10 +14,43 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
+import { sessionState } from "@/atoms/session"
+import { useEffect } from "react"
 
+// const authCall = async () => {
+//   try {
+//     const SCOPES = "CV%2CCANDIDATE_PROFILE_WITH_EMAIL%2CCANDIDATE_READ_CURRICULUM_CVTEXT%2CCANDIDATE_READ_CURRICULUM_EDUCATION%2CCANDIDATE_READ_CURRICULUM_EXPERIENCE%2CCANDIDATE_READ_CURRICULUM_FUTURE_JOB%2CCANDIDATE_READ_CURRICULUM_PERSONAL_DATA%2CCANDIDATE_READ_CURRICULUM_SKILLS"
+//     const CLIENT = process.env.IJ_CLIENT_ID;
+//     const SECRET = process.env.IJ_CLIENT_SECRET;
+//     const REDIRECT_URL = encodeURIComponent(process.env.IJ_CALLBACK_URL ?? 'https%3A%2F%2Finfojobs-hackathon-ebon.vercel.app%2Fapi%2Fauth%2Fcallback%2Finfojobs')
+//     const AUTHTOKEN = btoa(`${CLIENT}:${SECRET}`);
+
+//     const response = await fetch(`https://www.infojobs.net/api/oauth/user-authorize/index.xhtml?scope=${SCOPES}&client_id=${CLIENT}&redirect_uri=${REDIRECT_URL}&response_type=code`, {
+//       method: 'GET',
+//       headers: {
+//         'Content-Type': 'application/json',
+//         'Authorization': `Basic ${AUTHTOKEN}`
+//       }
+//     });
+
+//     const result = await response.json();
+//     console.log(result);
+
+//     return result;
+//   } catch (err) {
+//     console.error(err);
+//     return err;
+//   }
+// }
 
 
 export function SiteHeader() {
+  const [session, setSession] = useRecoilState(sessionState)
+
+  useEffect(() => {
+    console.log("session: ", session)
+  }, [session])
+
   return (
     <header className="relative w-10/12 mx-auto border-0 mt-5 rounded-xl bg-white shadow-xl max-w-7xl">
       <div className="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
@@ -70,6 +106,14 @@ export function SiteHeader() {
                 </ul>
               </PopoverContent>
             </Popover>
+
+            {session.access_token.length === 0 && (
+              <Link href="https://www.infojobs.net/api/oauth/user-authorize/index.xhtml?scope=CV%2CCANDIDATE_PROFILE_WITH_EMAIL%2CCANDIDATE_READ_CURRICULUM_CVTEXT%2CCANDIDATE_READ_CURRICULUM_EDUCATION%2CCANDIDATE_READ_CURRICULUM_EXPERIENCE%2CCANDIDATE_READ_CURRICULUM_FUTURE_JOB%2CCANDIDATE_READ_CURRICULUM_PERSONAL_DATA%2CCANDIDATE_READ_CURRICULUM_SKILLS&client_id=912f8125fe094a12a417eabbb3137321&redirect_uri=https%3A%2F%2Finfojobs-hackathon-ebon.vercel.app%2Fapi%2Fauth%2Fcallback%2Finfojobs&response_type=code">
+                <Button size="sm">
+                  Login
+                </Button>
+              </Link>
+            )}
 
             {/* <ThemeToggle /> */}
           </nav>
