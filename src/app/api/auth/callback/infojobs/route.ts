@@ -31,9 +31,9 @@ export async function GET(request: Request) {
          token_type: accessToken.token_type ? accessToken.token_type : ''
       }
 
-      const loginUrl = new URL(request.url);
-      loginUrl.searchParams.set('success', 'true');
-      return NextResponse.redirect(loginUrl, {
+      const url = new URL(request.url);
+      url.searchParams.set('success', 'true');
+      return NextResponse.redirect(url, {
          status: 302,
          headers: {
             'Set-Cookie': `session=${JSON.stringify(session)}; Path=/;`
@@ -42,6 +42,8 @@ export async function GET(request: Request) {
    }
 
    if (accessToken.error) {
-      return NextResponse.redirect(`/?error=${accessToken.error_description}`);
+      const url = new URL(request.url);
+      url.searchParams.set('error', accessToken.error_description ?? accessToken.error);
+      return NextResponse.redirect(url);
    }
 }
