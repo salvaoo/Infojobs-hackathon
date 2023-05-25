@@ -24,9 +24,11 @@ export function SiteHeader() {
 
   useEffect(() => {
     if (hasCookie('session')) {
-      const authCookie = getCookie('session')
+      const authCookie = getCookie('session') as string
 
-      console.log("authCookie: ", authCookie)
+      setSession(JSON.parse(authCookie) as SessionType)
+
+      console.log(session)
     }
   }, [session])
 
@@ -66,32 +68,32 @@ export function SiteHeader() {
                 <span className="sr-only">Twitter</span>
               </div>
             </Link> */}
-            <Popover>
-              <PopoverTrigger>
-                <Avatar className="w-8 h-8">
-                  <AvatarImage src="https://github.com/shadcn.png" />
-                  <AvatarFallback>IJ</AvatarFallback>
-                </Avatar>
-              </PopoverTrigger>
-              <PopoverContent className="w-fit" align="end" sideOffset={6}>
-                <ul className="">
-                  <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Buscar Empresas</li>
-                  <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Salarios</li>
-                  <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Formación</li>
-                  <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Consejos</li>
-                  <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Ajustes</li>
-                  <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Ayuda</li>
-                  <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Cerrar sesión</li>
-                </ul>
-              </PopoverContent>
-            </Popover>
-
-            {session.access_token.length === 0 && (
+            {session.access_token.length === 0 ? (
               <Link href="https://www.infojobs.net/api/oauth/user-authorize/index.xhtml?scope=CV,CANDIDATE_PROFILE_WITH_EMAIL,CANDIDATE_READ_CURRICULUM_CVTEXT,CANDIDATE_READ_CURRICULUM_EDUCATION,CANDIDATE_READ_CURRICULUM_EXPERIENCE,CANDIDATE_READ_CURRICULUM_FUTURE_JOB,CANDIDATE_READ_CURRICULUM_PERSONAL_DATA,CANDIDATE_READ_CURRICULUM_SKILLS&client_id=912f8125fe094a12a417eabbb3137321&redirect_uri=https://infojobs-hackathon-ebon.vercel.app/api/auth/callback/infojobs&response_type=code">
                 <Button size="sm">
                   Login
                 </Button>
               </Link>
+            ) : (
+              <Popover>
+                <PopoverTrigger>
+                  <Avatar className="w-8 h-8">
+                    <AvatarImage src="https://github.com/shadcn.png" />
+                    <AvatarFallback>IJ</AvatarFallback>
+                  </Avatar>
+                </PopoverTrigger>
+                <PopoverContent className="w-fit" align="end" sideOffset={6}>
+                  <ul className="">
+                    <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Buscar Empresas</li>
+                    <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Salarios</li>
+                    <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Formación</li>
+                    <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Consejos</li>
+                    <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Ajustes</li>
+                    <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Ayuda</li>
+                    <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Cerrar sesión</li>
+                  </ul>
+                </PopoverContent>
+              </Popover>
             )}
 
             {/* <ThemeToggle /> */}
