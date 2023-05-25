@@ -30,7 +30,7 @@ export function SiteHeader() {
 
       console.log(session)
     }
-  }, [session])
+  }, [])
 
   return (
     <header className="relative w-10/12 mx-auto border-0 mt-5 rounded-xl bg-white shadow-xl max-w-7xl">
