@@ -31,7 +31,9 @@ export async function GET(request: Request) {
          token_type: accessToken.token_type ? accessToken.token_type : ''
       }
 
-      return NextResponse.redirect('/?success=true', {
+      const loginUrl = new URL(request.url);
+      loginUrl.searchParams.set('success', 'true');
+      return NextResponse.redirect(loginUrl, {
          status: 302,
          headers: {
             'Set-Cookie': `session=${JSON.stringify(session)}; Path=/;`
