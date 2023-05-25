@@ -31,7 +31,7 @@ export async function GET(request: Request) {
          token_type: accessToken.token_type ? accessToken.token_type : ''
       }
 
-      const url = new URL(request.url);
+      const url = new URL('/', request.url);
       url.searchParams.set('success', 'true');
       return NextResponse.redirect(url, {
          status: 302,
@@ -42,7 +42,7 @@ export async function GET(request: Request) {
    }
 
    if (accessToken.error) {
-      const url = new URL(request.url);
+      const url = new URL('/', request.url);
       url.searchParams.set('error', accessToken.error_description ?? accessToken.error);
       return NextResponse.redirect(url);
    }
