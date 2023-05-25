@@ -1,6 +1,7 @@
 import { OffersProps } from "@/types/offers"
 import { OfferCard } from "@/components/offerCard"
 import { Container } from "@/components/layouts"
+import { Profile } from "@/components/profile"
 
 const getOffers = async () => {
   const CLIENT = process.env.IJ_CLIENT_ID;
@@ -28,8 +29,8 @@ export default async function IndexPage() {
 
   return (
     <section className="container py-6 md:py-10">
-      <div className="relative grid grid-cols-3 gap-5">
-        <Container className="col-span-2 min-h-screen">
+      <div className="relative grid grid-cols-1 md:grid-cols-3 gap-5">
+        <Container className="md:col-span-2 min-h-screen">
           <div className="space-y-5">
             {offers?.items?.map(async (offer, index) => {
               const offerCard = await OfferCard({ key: index, offer: offer });
@@ -37,8 +38,8 @@ export default async function IndexPage() {
             })}
           </div>
         </Container>
-        <Container className="sticky top-5 col-span-1 h-96">
-          Profile
+        <Container className="sticky top-5 md:col-span-1 h-96 hidden md:block">
+          <Profile />
         </Container>
       </div>
 
