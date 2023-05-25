@@ -20,26 +20,26 @@ export async function GET(request: Request) {
    })
    const accessToken = await res.json() as SessionType;
 
-   return NextResponse.json(accessToken)
+   // return NextResponse.json(accessToken)
 
-   // if (accessToken.access_token) {
-   //    const session = {
-   //       access_token: accessToken.access_token,
-   //       expires_in: accessToken.expires_in,
-   //       refresh_token: accessToken.refresh_token,
-   //       scope: accessToken.scope ? accessToken.scope : '',
-   //       token_type: accessToken.token_type ? accessToken.token_type : ''
-   //    }
+   if (accessToken.access_token) {
+      const session = {
+         access_token: accessToken.access_token,
+         expires_in: accessToken.expires_in,
+         refresh_token: accessToken.refresh_token,
+         scope: accessToken.scope ? accessToken.scope : '',
+         token_type: accessToken.token_type ? accessToken.token_type : ''
+      }
 
-   //    return NextResponse.redirect('/?success=true', {
-   //       status: 302,
-   //       headers: {
-   //          'Set-Cookie': `session=${JSON.stringify(session)}; Path=/;`
-   //       }
-   //    });
-   // }
+      return NextResponse.redirect('/?success=true', {
+         status: 302,
+         headers: {
+            'Set-Cookie': `session=${JSON.stringify(session)}; Path=/;`
+         }
+      });
+   }
 
-   // if (accessToken.error) {
-   //    return NextResponse.redirect(`/?error=${accessToken.error_description}`);
-   // }
+   if (accessToken.error) {
+      return NextResponse.redirect(`/?error=${accessToken.error_description}`);
+   }
 }

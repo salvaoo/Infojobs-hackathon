@@ -9,13 +9,29 @@ export async function GET(request: Request) {
 
    const authToken = btoa(`${CLIENT}:${SECRET}`);
 
+   if (id) {
+      const res = await fetch(`${process.env.IJ_API_URL}/1/curriculum/${id}/education`, {
+         headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Basic ${authToken}, Bearer ${process.env.IJ_ACCESS_TOKEN}`
+         }
+      })
+
+      const curriculum = await res.json();
+
+      return NextResponse.json({ curriculum });
+   }
+
    const res = await fetch(`${process.env.IJ_API_URL}/2/curriculum`, {
       headers: {
          'Content-Type': 'application/json',
-         'Authorization': `Basic ${authToken}`
+         'Authorization': `Basic ${authToken}, Bearer ${process.env.IJ_ACCESS_TOKEN}`
       }
    })
+
    const curriculum = await res.json();
 
    return NextResponse.json({ curriculum });
+
+
 }
