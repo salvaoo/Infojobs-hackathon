@@ -31,7 +31,15 @@ export async function GET(
       const curriculumId = slug[0]
       const action = slug[1]
 
-      return NextResponse.json({ curriculumId, action })
+      const res = await fetch(`${process.env.IJ_API_URL}/1/curriculum/${curriculumId}/${action}`, {
+         headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Basic ${authToken}, Bearer ${session.access_token}`
+         }
+      })
+      const curriculum = await res.json()
+
+      return NextResponse.json({ curriculum })
    }
 
    const res = await fetch(`${process.env.IJ_API_URL}/2/curriculum`, {
