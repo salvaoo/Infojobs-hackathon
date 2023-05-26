@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
 import { useRecoilState } from "recoil"
 import { getCookie, hasCookie } from 'cookies-next';
@@ -17,15 +17,23 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { SessionType, sessionState } from "@/atoms/session"
+import { curriculumState } from "@/atoms/profile";
 
 
 export function SiteHeader() {
   const [session, setSession] = useRecoilState(sessionState)
+  const [profile, setProfile] = useRecoilState(curriculumState)
 
   useEffect(() => {
     if (hasCookie('session')) {
       const authCookie = getCookie('session') as string
       setSession(JSON.parse(authCookie) as SessionType)
+
+      fetch('/api/curriculum')
+      .then((res) => res.json())
+      .then((data) => {
+        setProfile(data.curriculum[0])
+      }); 
     }
   }, [])
     
@@ -76,7 +84,7 @@ export function SiteHeader() {
               <Popover>
                 <PopoverTrigger>
                   <Avatar className="w-8 h-8">
-                    <AvatarImage src="https://github.com/shadcn.png" />
+                    <AvatarImage src={`https://www.infojobs.net/candidato.foto?id_candidato=${profile.code}`} />
                     <AvatarFallback>IJ</AvatarFallback>
                   </Avatar>
                 </PopoverTrigger>
