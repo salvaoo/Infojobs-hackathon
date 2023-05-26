@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { useRecoilState } from "recoil"
-import { getCookie, hasCookie } from 'cookies-next';
+import { getCookie, hasCookie, deleteCookie } from 'cookies-next';
 
 import { siteConfig } from "@/config/site"
 import { Button, buttonVariants } from "@/components/ui/button"
@@ -16,8 +16,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { SessionType, sessionState } from "@/atoms/session"
-import { curriculumState } from "@/atoms/profile";
+import { SessionType, defaultSession, sessionState } from "@/atoms/session"
+import { curriculumState, defaultCurriculum } from "@/atoms/profile";
 
 
 export function SiteHeader() {
@@ -36,8 +36,13 @@ export function SiteHeader() {
       }); 
     }
   }, [])
-    
 
+  const signOut = () => {
+    deleteCookie('session')
+    setSession(defaultSession)
+    setProfile(defaultCurriculum)
+  }
+    
   return (
     <header className="relative w-10/12 mx-auto border-0 mt-5 rounded-xl bg-white shadow-xl max-w-7xl">
       <div className="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
@@ -96,7 +101,7 @@ export function SiteHeader() {
                     <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Consejos</li>
                     <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Ajustes</li>
                     <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Ayuda</li>
-                    <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Cerrar sesión</li>
+                    <li onClick={() => signOut()} className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Cerrar sesión</li>
                   </ul>
                 </PopoverContent>
               </Popover>

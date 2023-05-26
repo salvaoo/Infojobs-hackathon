@@ -11,7 +11,7 @@ export interface SessionType {
    timestamp?: string
 }
 
-const defaultSession: SessionType = {
+export const defaultSession: SessionType = {
    access_token: "",
    expires_in: 0,
    refresh_token: "",

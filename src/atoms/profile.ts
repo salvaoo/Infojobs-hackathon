@@ -9,7 +9,7 @@ export interface CurriculumProps {
    incompleteSteps?: [],
 }
 
-const defaultCurriculum: CurriculumProps = {
+export const defaultCurriculum: CurriculumProps = {
    id: 0,
    code: "",
    name: "",

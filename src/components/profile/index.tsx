@@ -7,7 +7,6 @@ interface Props { }
 
 export const Profile = (props: Props) => {
    const cookieStore = cookies()
-
    const session = cookieStore.get('session')
 
    console.log(session)
