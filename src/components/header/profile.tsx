@@ -31,25 +31,27 @@ export const ProfileHeader = async () => {
             {!session ? (
                <LoginButton />
             ) : (
-               <Popover>
-                  <PopoverTrigger>
-                     <Avatar className="w-8 h-8">
-                        <AvatarImage className="object-cover" src={``} />
-                        <AvatarFallback>IJ</AvatarFallback>
-                     </Avatar>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-fit" align="end" sideOffset={6}>
-                     <ul className="">
-                        <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Buscar Empresas</li>
-                        <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Salarios</li>
-                        <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Formación</li>
-                        <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Consejos</li>
-                        <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Ajustes</li>
-                        <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Ayuda</li>
-                        <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Cerrar sesión</li>
-                     </ul>
-                  </PopoverContent>
-               </Popover>
+               <p>{JSON.stringify(candidate)}</p>
+
+               // <Popover>
+               //    <PopoverTrigger>
+               //       <Avatar className="w-8 h-8">
+               //          <AvatarImage className="object-cover" src={``} />
+               //          <AvatarFallback>IJ</AvatarFallback>
+               //       </Avatar>
+               //    </PopoverTrigger>
+               //    <PopoverContent className="w-fit" align="end" sideOffset={6}>
+               //       <ul className="">
+               //          <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Buscar Empresas</li>
+               //          <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Salarios</li>
+               //          <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Formación</li>
+               //          <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Consejos</li>
+               //          <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Ajustes</li>
+               //          <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Ayuda</li>
+               //          <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Cerrar sesión</li>
+               //       </ul>
+               //    </PopoverContent>
+               // </Popover>
             )}
 
             {/* <ThemeToggle /> */}
