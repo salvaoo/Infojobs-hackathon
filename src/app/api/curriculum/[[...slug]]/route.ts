@@ -20,7 +20,7 @@ export async function GET(
 
    const slug = params.slug;
 
-   return NextResponse.json({ slug, session })
+   // return NextResponse.json({ slug, session })
 
    const CLIENT = process.env.IJ_CLIENT_ID;
    const SECRET = process.env.IJ_CLIENT_SECRET;
