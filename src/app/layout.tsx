@@ -8,6 +8,8 @@ import { cn } from "@/lib/utils"
 import { SiteHeader } from "@/components/site-header"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
+import AuthStatus from "@/components/auth-status"
+import { Suspense } from "react"
 
 export const metadata: Metadata = {
   title: {
@@ -50,6 +52,10 @@ export default function RootLayout({ children, offerModal }: RootLayoutProps) {
               </div>
               {offerModal}
               <TailwindIndicator />
+              <Suspense fallback="Loading...">
+                {/* @ts-expect-error Async Server Component */}
+                <AuthStatus />
+              </Suspense>
             </RecoilRoot>
           </ThemeProvider>
         </body>

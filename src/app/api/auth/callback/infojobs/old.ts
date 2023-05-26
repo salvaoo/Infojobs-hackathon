@@ -1,4 +1,4 @@
-import { SessionType, sessionState } from "@/atoms/session";
+import { SessionType } from "@/atoms/session";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
