@@ -27,22 +27,9 @@ export async function GET(
 
    const authToken = btoa(`${CLIENT}:${SECRET}`);
 
-   if (slug?.length === 2) {
-      const curriculumId = slug[0]
-      const action = slug[1]
+   let profile: any = {}
 
-      const res = await fetch(`${process.env.IJ_API_URL}/1/curriculum/${curriculumId}/${action}`, {
-         headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Basic ${authToken}, Bearer ${session.access_token}`
-         }
-      })
-      const curriculum = await res.json()
-
-      return NextResponse.json({ curriculum })
-   }
-
-   const res = await fetch(`${process.env.IJ_API_URL}/2/curriculum`, {
+   let res = await fetch(`${process.env.IJ_API_URL}/2/curriculum`, {
       headers: {
          'Content-Type': 'application/json',
          'Authorization': `Basic ${authToken}, Bearer ${session.access_token}`
@@ -50,7 +37,73 @@ export async function GET(
    })
    const curriculum = await res.json()
 
-   return NextResponse.json({ curriculum })
+   profile.curriculum = curriculum[0]
+
+
+   // Get cvText
+   res = await fetch(`${process.env.IJ_API_URL}/1/curriculum/${curriculum[0].code}/cvtext`, {
+      headers: {
+         'Content-Type': 'application/json',
+         'Authorization': `Basic ${authToken}, Bearer ${session.access_token}`
+      }
+   })
+   const cvText = await res.json()
+   profile.cvText = cvText.cvtext
+
+   // Get education
+   res = await fetch(`${process.env.IJ_API_URL}/1/curriculum/${curriculum[0].code}/education`, {
+      headers: {
+         'Content-Type': 'application/json',
+         'Authorization': `Basic ${authToken}, Bearer ${session.access_token}`
+      }
+   })
+   const education = await res.json()
+   profile.education = education.education
+
+
+   // Get experience
+   res = await fetch(`${process.env.IJ_API_URL}/2/curriculum/${curriculum[0].code}/experience`, {
+      headers: {
+         'Content-Type': 'application/json',
+         'Authorization': `Basic ${authToken}, Bearer ${session.access_token}`
+      }
+   })
+   const experience = await res.json()
+   profile.experience = experience.experience
+
+
+   // Get future job
+   res = await fetch(`${process.env.IJ_API_URL}/4/curriculum/${curriculum[0].code}/futurejob`, {
+      headers: {
+         'Content-Type': 'application/json',
+         'Authorization': `Basic ${authToken}, Bearer ${session.access_token}`
+      }
+   })
+   const futurejob = await res.json()
+   profile.futurejob = futurejob
+
+
+   // Get personal data
+   res = await fetch(`${process.env.IJ_API_URL}/2/curriculum/${curriculum[0].code}/personaldata`, {
+      headers: {
+         'Content-Type': 'application/json',
+         'Authorization': `Basic ${authToken}, Bearer ${session.access_token}`
+      }
+   })
+   const personaldata = await res.json()
+   profile.personaldata = personaldata
+
+   // Get skills
+   res = await fetch(`${process.env.IJ_API_URL}/2/curriculum/${curriculum[0].code}/skill`, {
+      headers: {
+         'Content-Type': 'application/json',
+         'Authorization': `Basic ${authToken}, Bearer ${session.access_token}`
+      }
+   })
+   const skill = await res.json()
+   profile.skill = skill
+
+   return NextResponse.json({ profile })
 
 
    // if (id) {

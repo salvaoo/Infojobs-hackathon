@@ -17,12 +17,12 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { SessionType, defaultSession, sessionState } from "@/atoms/session"
-import { curriculumState, defaultCurriculum } from "@/atoms/profile";
+import { defaultProfile, profileState } from "@/atoms/profile";
 
 
 export function SiteHeader() {
   const [session, setSession] = useRecoilState(sessionState)
-  const [profile, setProfile] = useRecoilState(curriculumState)
+  const [profile, setProfile] = useRecoilState(profileState)
 
   useEffect(() => {
     if (hasCookie('session')) {
@@ -32,15 +32,17 @@ export function SiteHeader() {
       fetch('/api/curriculum')
       .then((res) => res.json())
       .then((data) => {
-        setProfile(data.curriculum[0])
+        console.log(data.profile)
+        
+        setProfile(data.profile)
       }); 
     }
-  }, [])
+  }, [ setSession, setProfile ])
 
   const signOut = () => {
     deleteCookie('session')
     setSession(defaultSession)
-    setProfile(defaultCurriculum)
+    setProfile(defaultProfile)
   }
     
   return (
@@ -49,36 +51,6 @@ export function SiteHeader() {
         <MainNav items={siteConfig.mainNav} />
         <div className="flex flex-1 items-center justify-end space-x-4">
           <nav className="flex items-center space-x-2">
-            {/* <Link
-              href={siteConfig.links.github}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <div
-                className={buttonVariants({
-                  size: "sm",
-                  variant: "ghost",
-                })}
-              >
-                <Icons.gitHub className="h-5 w-5" />
-                <span className="sr-only">GitHub</span>
-              </div>
-            </Link>
-            <Link
-              href={siteConfig.links.twitter}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <div
-                className={buttonVariants({
-                  size: "sm",
-                  variant: "ghost",
-                })}
-              >
-                <Icons.twitter className="h-5 w-5 fill-current" />
-                <span className="sr-only">Twitter</span>
-              </div>
-            </Link> */}
             {session.expires_in == 0 ? (
               <Link href="https://www.infojobs.net/api/oauth/user-authorize/index.xhtml?scope=CV,CANDIDATE_PROFILE_WITH_EMAIL,CANDIDATE_READ_CURRICULUM_CVTEXT,CANDIDATE_READ_CURRICULUM_EDUCATION,CANDIDATE_READ_CURRICULUM_EXPERIENCE,CANDIDATE_READ_CURRICULUM_FUTURE_JOB,CANDIDATE_READ_CURRICULUM_PERSONAL_DATA,CANDIDATE_READ_CURRICULUM_SKILLS&client_id=912f8125fe094a12a417eabbb3137321&redirect_uri=https://infojobs-hackathon-ebon.vercel.app/api/auth/callback/infojobs&response_type=code">
                 <Button size="sm">
@@ -89,7 +61,7 @@ export function SiteHeader() {
               <Popover>
                 <PopoverTrigger>
                   <Avatar className="w-8 h-8">
-                    <AvatarImage src={`https://www.infojobs.net/candidato.foto?id_candidato=${profile.code}`} />
+                    <AvatarImage src={`https://www.infojobs.net/candidato.foto?id_candidato=${profile.curriculum.code}`} />
                     <AvatarFallback>IJ</AvatarFallback>
                   </Avatar>
                 </PopoverTrigger>
