@@ -12,7 +12,7 @@ export async function GET(
 ) {
    const cookieStore = cookies()
 
-   if (cookieStore.has('session')) {
+   if (cookieStore.get('session') === undefined) {
       return NextResponse.json({ error: 'session error' }, { status: 401 })
    }
 
