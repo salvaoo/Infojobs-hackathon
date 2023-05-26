@@ -1,7 +1,7 @@
 import NextAuth, { type NextAuthOptions } from "next-auth";
 import InfojobsProvider from "infojobs-next-auth-provider";
 
-const authOptions: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
    providers: [
       InfojobsProvider({
          clientId: process.env.IJ_CLIENT_ID ?? "",

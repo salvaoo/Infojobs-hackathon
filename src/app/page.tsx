@@ -2,6 +2,8 @@ import { OffersProps } from "@/types/offers"
 import { OfferCard } from "@/components/offerCard"
 import { Container } from "@/components/layouts"
 import { Profile } from "@/components/profile"
+import { getServerSession } from "next-auth/next"
+import { authOptions } from "./api/auth/[...nextauth]/route"
 
 const getOffers = async () => {
   const CLIENT = process.env.IJ_CLIENT_ID;
@@ -24,7 +26,9 @@ const getOffers = async () => {
 }
 
 export default async function IndexPage() {
-
+  const session = await getServerSession(authOptions)
+  console.log(session);
+  
   const offers = await getOffers();
 
   return (
