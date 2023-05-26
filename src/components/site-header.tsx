@@ -80,7 +80,7 @@ export function SiteHeader() {
                   Acceder
                 </Button>
               </Link>
-            ) : (
+            ) : ( 
               <Popover>
                 <PopoverTrigger>
                   <Avatar className="w-8 h-8">
