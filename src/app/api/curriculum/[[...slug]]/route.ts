@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
-import { cookies } from 'next/headers'
-import { SessionType } from "@/atoms/session";
+import { getServerSession } from "next-auth";
+
+import { authOptions } from "@/lib/auth";
 
 export async function GET(
    request: Request,
@@ -10,14 +11,11 @@ export async function GET(
       params: { slug: string };
    },
 ) {
-   const cookieStore = cookies()
+   const session = await getServerSession(authOptions)
 
-   if (cookieStore.get('session') === undefined) {
+   if (!session) {
       return NextResponse.json({ error: 'session error' }, { status: 401 })
    }
-
-   const session = JSON.parse(cookieStore.get('session')?.value as string) as SessionType
-
    const slug = params.slug;
 
    // return NextResponse.json({ slug, session })
@@ -32,7 +30,7 @@ export async function GET(
    let res = await fetch(`${process.env.IJ_API_URL}/2/curriculum`, {
       headers: {
          'Content-Type': 'application/json',
-         'Authorization': `Basic ${authToken}, Bearer ${session.access_token}`
+         'Authorization': `Basic ${authToken}, Bearer ${session.accessToken}`
       }
    })
    const curriculum = await res.json()
@@ -44,7 +42,7 @@ export async function GET(
    res = await fetch(`${process.env.IJ_API_URL}/1/curriculum/${curriculum[0].code}/cvtext`, {
       headers: {
          'Content-Type': 'application/json',
-         'Authorization': `Basic ${authToken}, Bearer ${session.access_token}`
+         'Authorization': `Basic ${authToken}, Bearer ${session.accessToken}`
       }
    })
    const cvText = await res.json()
@@ -54,7 +52,7 @@ export async function GET(
    res = await fetch(`${process.env.IJ_API_URL}/1/curriculum/${curriculum[0].code}/education`, {
       headers: {
          'Content-Type': 'application/json',
-         'Authorization': `Basic ${authToken}, Bearer ${session.access_token}`
+         'Authorization': `Basic ${authToken}, Bearer ${session.accessToken}`
       }
    })
    const education = await res.json()
@@ -65,7 +63,7 @@ export async function GET(
    res = await fetch(`${process.env.IJ_API_URL}/2/curriculum/${curriculum[0].code}/experience`, {
       headers: {
          'Content-Type': 'application/json',
-         'Authorization': `Basic ${authToken}, Bearer ${session.access_token}`
+         'Authorization': `Basic ${authToken}, Bearer ${session.accessToken}`
       }
    })
    const experience = await res.json()
@@ -76,7 +74,7 @@ export async function GET(
    res = await fetch(`${process.env.IJ_API_URL}/4/curriculum/${curriculum[0].code}/futurejob`, {
       headers: {
          'Content-Type': 'application/json',
-         'Authorization': `Basic ${authToken}, Bearer ${session.access_token}`
+         'Authorization': `Basic ${authToken}, Bearer ${session.accessToken}`
       }
    })
    const futurejob = await res.json()
@@ -87,7 +85,7 @@ export async function GET(
    res = await fetch(`${process.env.IJ_API_URL}/2/curriculum/${curriculum[0].code}/personaldata`, {
       headers: {
          'Content-Type': 'application/json',
-         'Authorization': `Basic ${authToken}, Bearer ${session.access_token}`
+         'Authorization': `Basic ${authToken}, Bearer ${session.accessToken}`
       }
    })
    const personaldata = await res.json()
@@ -97,38 +95,11 @@ export async function GET(
    res = await fetch(`${process.env.IJ_API_URL}/2/curriculum/${curriculum[0].code}/skill`, {
       headers: {
          'Content-Type': 'application/json',
-         'Authorization': `Basic ${authToken}, Bearer ${session.access_token}`
+         'Authorization': `Basic ${authToken}, Bearer ${session.accessToken}`
       }
    })
    const skill = await res.json()
    profile.skill = skill
 
    return NextResponse.json({ profile })
-
-
-   // if (id) {
-   //    const res = await fetch(`${process.env.IJ_API_URL}/1/curriculum/${id}/education`, {
-   //       headers: {
-   //          'Content-Type': 'application/json',
-   //          'Authorization': `Basic ${authToken}, Bearer ${process.env.IJ_ACCESS_TOKEN}`
-   //       }
-   //    })
-
-   //    const curriculum = await res.json();
-
-   //    return NextResponse.json({ curriculum });
-   // }
-
-   // const res = await fetch(`${process.env.IJ_API_URL}/2/curriculum`, {
-   //    headers: {
-   //       'Content-Type': 'application/json',
-   //       'Authorization': `Basic ${authToken}, Bearer ${process.env.IJ_ACCESS_TOKEN}`
-   //    }
-   // })
-
-   // const curriculum = await res.json();
-
-   // return NextResponse.json({ curriculum });
-
-
 }
