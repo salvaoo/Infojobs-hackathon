@@ -101,5 +101,13 @@ export async function GET(
    const skill = await res.json()
    profile.skill = skill
 
-   return NextResponse.json({ profile })
+   return NextResponse.json({ 
+      curriculum: profile.curriculum,
+      cvText: profile.cvText,
+      education: profile.education,
+      experience: profile.experience,
+      futurejob: profile.futurejob,
+      personaldata: profile.personaldata,
+      skill: profile.skill,
+    })
 }
