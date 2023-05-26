@@ -1,29 +1,31 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import {
-   Popover,
-   PopoverContent,
-   PopoverTrigger,
-} from "@/components/ui/popover"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { LoginButton } from "@/components/loginButton"
 
-const getCandidate = async () => {
-   const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/candidate`)
+const getCandidate = async (accessToken: string) => {
+   const CLIENT = process.env.IJ_CLIENT_ID;
+   const SECRET = process.env.IJ_CLIENT_SECRET;
+   const authToken = btoa(`${CLIENT}:${SECRET}`);
+
+   const res = await fetch(`${process.env.IJ_API_URL}/6/candidate`, {
+      headers: {
+         'Content-Type': 'application/json',
+         'Authorization': `Basic ${authToken}, Bearer ${accessToken}`
+      }
+   })
    const candidate = await res.json()
 
    return candidate
 }
 
 export const ProfileHeader = async () => {
-
    const session = await getServerSession(authOptions)
    console.log("session nextauth: ", session);
 
-   const candidate = await getCandidate()
-
+   const candidate = await getCandidate(session?.accessToken as string)
    console.log("candidate: ", candidate);
-   
 
    return (
       <div className="flex flex-1 items-center justify-end space-x-4">
