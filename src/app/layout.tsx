@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils"
 import { SiteHeader } from "@/components/site-header"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
+import { NextAuthProvider } from "@/components/sessionProvider"
 
 export const metadata: Metadata = {
   title: {
@@ -43,14 +44,16 @@ export default function RootLayout({ children, offerModal }: RootLayoutProps) {
           )}
         >
           <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
-            <RecoilRoot>
-              <div className="relative flex min-h-screen flex-col">
-                <SiteHeader />
-                <div className="flex-1">{children}</div>
-              </div>
-              {offerModal}
-              <TailwindIndicator />
-            </RecoilRoot>
+            <NextAuthProvider>
+              <RecoilRoot>
+                <div className="relative flex min-h-screen flex-col">
+                  <SiteHeader />
+                  <div className="flex-1">{children}</div>
+                </div>
+                {offerModal}
+                <TailwindIndicator />
+              </RecoilRoot>
+            </NextAuthProvider>
           </ThemeProvider>
         </body>
       </html>

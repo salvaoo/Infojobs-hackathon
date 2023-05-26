@@ -1,87 +1,24 @@
-'use client'
-
-import { useEffect, useState } from "react"
-import Link from "next/link"
-import { useRecoilState } from "recoil"
-import { getCookie, hasCookie, deleteCookie } from 'cookies-next';
+import { Suspense } from "react"
 
 import { siteConfig } from "@/config/site"
-import { Button, buttonVariants } from "@/components/ui/button"
-import { Icons } from "@/components/icons"
 import { MainNav } from "@/components/main-nav"
-import { ThemeToggle } from "@/components/theme-toggle"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
-import { SessionType, defaultSession, sessionState } from "@/atoms/session"
-import { defaultProfile, profileState } from "@/atoms/profile";
-
+import { ProfileHeader } from "@/components/header/profile";
+import { Pulsar } from '@uiball/loaders'
 
 export function SiteHeader() {
-  const [session, setSession] = useRecoilState(sessionState)
-  const [profile, setProfile] = useRecoilState(profileState)
-
-  useEffect(() => {
-    if (hasCookie('session')) {
-      const authCookie = getCookie('session') as string
-      setSession(JSON.parse(authCookie) as SessionType)
-
-      fetch('/api/curriculum')
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data.profile)
-        
-        setProfile(data.profile)
-      }); 
-    }
-  }, [ setSession, setProfile ])
-
-  const signOut = () => {
-    deleteCookie('session')
-    setSession(defaultSession)
-    setProfile(defaultProfile)
-  }
-    
+  
   return (
     <header className="relative w-10/12 mx-auto border-0 mt-5 rounded-xl bg-white shadow-xl max-w-7xl">
       <div className="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
         <MainNav items={siteConfig.mainNav} />
-        <div className="flex flex-1 items-center justify-end space-x-4">
-          <nav className="flex items-center space-x-2">
-            {session.expires_in == 0 ? (
-              <Link href="https://www.infojobs.net/api/oauth/user-authorize/index.xhtml?scope=CV,CANDIDATE_PROFILE_WITH_EMAIL,CANDIDATE_READ_CURRICULUM_CVTEXT,CANDIDATE_READ_CURRICULUM_EDUCATION,CANDIDATE_READ_CURRICULUM_EXPERIENCE,CANDIDATE_READ_CURRICULUM_FUTURE_JOB,CANDIDATE_READ_CURRICULUM_PERSONAL_DATA,CANDIDATE_READ_CURRICULUM_SKILLS&client_id=912f8125fe094a12a417eabbb3137321&redirect_uri=https://infojobs-hackathon-ebon.vercel.app/api/auth/callback/infojobs&response_type=code">
-                <Button size="sm">
-                  Acceder
-                </Button>
-              </Link>
-            ) : ( 
-              <Popover>
-                <PopoverTrigger>
-                  <Avatar className="w-8 h-8">
-                    <AvatarImage src={`https://www.infojobs.net/candidato.foto?id_candidato=${profile.curriculum.code}`} />
-                    <AvatarFallback>IJ</AvatarFallback>
-                  </Avatar>
-                </PopoverTrigger>
-                <PopoverContent className="w-fit" align="end" sideOffset={6}>
-                  <ul className="">
-                    <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Buscar Empresas</li>
-                    <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Salarios</li>
-                    <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Formación</li>
-                    <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Consejos</li>
-                    <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Ajustes</li>
-                    <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Ayuda</li>
-                    <li onClick={() => signOut()} className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Cerrar sesión</li>
-                  </ul>
-                </PopoverContent>
-              </Popover>
-            )}
-
-            {/* <ThemeToggle /> */}
-          </nav>
-        </div>
+        <Suspense fallback={<Pulsar
+          size={40}
+          speed={1.75}
+          color="black"
+        />}>
+          {/* @ts-expect-error Async Server Component */}
+          <ProfileHeader />
+        </Suspense>
       </div>
     </header>
   )
