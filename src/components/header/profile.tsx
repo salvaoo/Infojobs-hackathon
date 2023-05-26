@@ -22,10 +22,7 @@ const getCandidate = async (accessToken: string) => {
 
 export const ProfileHeader = async () => {
    const session = await getServerSession(authOptions)
-   console.log("session nextauth: ", session);
-
    const candidate = await getCandidate(session?.accessToken as string)
-   console.log("candidate: ", candidate);
 
    return (
       <div className="flex flex-1 items-center justify-end space-x-4">
@@ -33,27 +30,25 @@ export const ProfileHeader = async () => {
             {!session ? (
                <LoginButton />
             ) : (
-               <p>{JSON.stringify(candidate)}</p>
-
-               // <Popover>
-               //    <PopoverTrigger>
-               //       <Avatar className="w-8 h-8">
-               //          <AvatarImage className="object-cover" src={``} />
-               //          <AvatarFallback>IJ</AvatarFallback>
-               //       </Avatar>
-               //    </PopoverTrigger>
-               //    <PopoverContent className="w-fit" align="end" sideOffset={6}>
-               //       <ul className="">
-               //          <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Buscar Empresas</li>
-               //          <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Salarios</li>
-               //          <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Formación</li>
-               //          <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Consejos</li>
-               //          <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Ajustes</li>
-               //          <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Ayuda</li>
-               //          <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Cerrar sesión</li>
-               //       </ul>
-               //    </PopoverContent>
-               // </Popover>
+               <Popover>
+                  <PopoverTrigger>
+                     <Avatar className="w-8 h-8">
+                        <AvatarImage className="object-cover" src={`${candidate.photo}&CameFrom=perfil`} />
+                        <AvatarFallback>IJ</AvatarFallback>
+                     </Avatar>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-fit" align="end" sideOffset={6}>
+                     <ul className="">
+                        <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Buscar Empresas</li>
+                        <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Salarios</li>
+                        <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Formación</li>
+                        <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Consejos</li>
+                        <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Ajustes</li>
+                        <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Ayuda</li>
+                        <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Cerrar sesión</li>
+                     </ul>
+                  </PopoverContent>
+               </Popover>
             )}
 
             {/* <ThemeToggle /> */}
