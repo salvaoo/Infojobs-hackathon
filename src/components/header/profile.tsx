@@ -2,7 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
-import { LoginButton } from "@/components/loginButton"
+import { LoginButton, LogoutButton } from "@/components/signButtons"
 
 const getCandidate = async (accessToken: string) => {
    const CLIENT = process.env.IJ_CLIENT_ID;
@@ -45,7 +45,9 @@ export const ProfileHeader = async () => {
                         <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Consejos</li>
                         <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Ajustes</li>
                         <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Ayuda</li>
-                        <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Cerrar sesión</li>
+                        <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">
+                           <LogoutButton />
+                        </li>
                      </ul>
                   </PopoverContent>
                </Popover>
