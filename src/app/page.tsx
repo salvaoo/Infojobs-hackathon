@@ -41,7 +41,6 @@ export default async function IndexPage() {
         </Container>
         <Container className="sticky top-5 md:col-span-1 h-96 hidden md:block">
           <Suspense fallback={<div>Loading profile...</div>}>
-            {/* @ts-expect-error Async Server Component */}
             <Profile />
           </Suspense>
         </Container>
