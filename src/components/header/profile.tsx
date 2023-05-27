@@ -46,7 +46,7 @@ export const ProfileHeader = async () => {
                         <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Ajustes</li>
                         <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">Ayuda</li>
                         <li className="text-gray-600 hover:text-primary transition-colors hover:bg-primary/10 px-5 py-2 rounded cursor-pointer">
-                           <LogoutButton />
+                           <LogoutButton className="px-0" />
                         </li>
                      </ul>
                   </PopoverContent>

@@ -1,4 +1,7 @@
+'use client'
+
 import { AlertCircle } from "lucide-react"
+import { useEffect, useState } from "react"
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { ProfileProps } from "@/types/profile"
@@ -7,26 +10,33 @@ import { fontSans } from "@/lib/fonts"
 
 
 // This function fetches the profile data from the server
-const getProfile = async () => {
-   const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/curriculum`, {
-      method: 'GET',
-      headers: {
-         'Content-Type': 'application/json',
-      }
-   })
-   const profile = await res.json() as ProfileProps
+// const getProfile = async () => {
+//    const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/curriculum`, {
+//       method: 'GET',
+//       headers: {
+//          'Content-Type': 'application/json',
+//       }
+//    })
+//    const profile = await res.json() as ProfileProps
 
-   // Returns an object with all the profile data
-   return profile
-}
+//    // Returns an object with all the profile data
+//    return profile
+// }
 
-export const Profile = async () => {
-   // const session = await getServerSession(authOptions)
-   const profile = await getProfile()
+export const Profile = () => {
+   const [profile, setProfile] = useState<ProfileProps>()
 
-   console.log(profile);
+   useEffect(() => {
+      fetch(`${process.env.NEXT_PUBLIC_URL}/api/curriculum`, {
+         method: 'GET',
+         headers: {
+            'Content-Type': 'application/json',
+         }
+      }).then(res => res.json())
+         .then(data => setProfile(data))
+   }, [])
 
-   if (profile?.error) {
+   if (!profile) {
       return (
          <Alert>
             <AlertCircle className="h-4 w-4" />

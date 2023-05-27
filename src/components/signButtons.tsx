@@ -1,7 +1,10 @@
 'use client'
 
+import { ButtonHTMLAttributes } from "react"
 import { signIn, signOut } from "next-auth/react"
 
+
+import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 
 export const LoginButton = () => {
@@ -12,9 +15,13 @@ export const LoginButton = () => {
    )
 }
 
-export const LogoutButton = () => {
+interface LogoutButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  className?: string;
+}
+
+export const LogoutButton = ({ className, ...props }: LogoutButtonProps) => {
    return (
-      <Button onClick={() => signOut()} size="sm" variant="ghost">
+      <Button className={cn(className)} onClick={() => signOut()} size="sm" variant="ghost" {...props}>
          Cerrar sesión
       </Button>
    )
