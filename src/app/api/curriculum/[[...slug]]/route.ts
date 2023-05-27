@@ -14,7 +14,7 @@ export async function GET(
    const session = await getServerSession(authOptions)
 
    if (!session) {
-      return NextResponse.json({ error: 'session error' }, { status: 401 })
+      return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
    }
    const slug = params.slug;
 

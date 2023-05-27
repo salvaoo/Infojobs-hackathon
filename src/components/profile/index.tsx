@@ -8,7 +8,12 @@ import { fontSans } from "@/lib/fonts"
 
 // This function fetches the profile data from the server
 const getProfile = async () => {
-   const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/curriculum`)
+   const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/curriculum`, {
+      method: 'GET',
+      headers: {
+         'Content-Type': 'application/json',
+      }
+   })
    const profile = await res.json() as ProfileProps
 
    // Returns an object with all the profile data
@@ -23,7 +28,7 @@ export const Profile = async () => {
    
 
    // If session is undefined, show the login button
-   if (profile.error) {
+   if (profile.error === 'Not authenticated') {
       return (
          <Alert>
             <AlertCircle className="h-4 w-4" />
