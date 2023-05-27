@@ -1,19 +1,19 @@
-'use client'
-
 import { AlertCircle } from "lucide-react"
+import { getServerSession } from "next-auth"
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { ProfileProps } from "@/types/profile"
-import { useRecoilState } from "recoil"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { fontSans } from "@/lib/fonts"
-import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 
+
+// This function fetches the profile data from the server
 const getProfile = async () => {
    const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/curriculum`)
    const { curriculum, cvText, education, experience, futurejob, personaldata, skill } = await res.json() as ProfileProps
 
+   // Returns an object with all the profile data
    return { curriculum, cvText, education, experience, futurejob, personaldata, skill }
 }
 
