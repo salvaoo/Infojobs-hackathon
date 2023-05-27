@@ -2,6 +2,7 @@ import { OffersProps } from "@/types/offers"
 import { OfferCard } from "@/components/offerCard"
 import { Container } from "@/components/layouts"
 import { Profile } from "@/components/profile"
+import { Suspense } from "react"
 
 const getOffers = async () => {
   const CLIENT = process.env.IJ_CLIENT_ID;
@@ -39,7 +40,10 @@ export default async function IndexPage() {
           </div>
         </Container>
         <Container className="sticky top-5 md:col-span-1 h-96 hidden md:block">
-          <Profile />
+          <Suspense fallback={<div>Loading profile...</div>}>
+            {/* @ts-expect-error Async Server Component */}
+            <Profile />
+          </Suspense>
         </Container>
       </div>
 
