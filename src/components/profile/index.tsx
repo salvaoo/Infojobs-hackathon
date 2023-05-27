@@ -2,11 +2,14 @@
 
 import { AlertCircle } from "lucide-react"
 import { useEffect, useState } from "react"
+import { useSession } from "next-auth/react"
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { ProfileProps } from "@/types/profile"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { fontSans } from "@/lib/fonts"
+
+import { DotPulse } from '@uiball/loaders'
 
 
 // This function fetches the profile data from the server
@@ -24,6 +27,7 @@ import { fontSans } from "@/lib/fonts"
 // }
 
 export const Profile = () => {
+   const { data: session } = useSession();
    const [profile, setProfile] = useState<ProfileProps>()
 
    useEffect(() => {
@@ -36,7 +40,7 @@ export const Profile = () => {
          .then(data => setProfile(data))
    }, [])
 
-   if (!profile) {
+   if (!session) {
       return (
          <Alert>
             <AlertCircle className="h-4 w-4" />
@@ -48,11 +52,23 @@ export const Profile = () => {
       )
    }
 
+   if (!profile) {
+      return (
+         <div className="w-full h-full flex items-center justify-center">
+            <DotPulse
+               size={40}
+               speed={1.3}
+               color="black"
+            />
+         </div>
+      )
+   }
+
    return (
       <section className={`${fontSans.className}`}>
          <div className="flex flex-col gap-3 justify-center items-center">
             <Avatar className="w-20 h-20">
-               <AvatarImage src={`https://www.infojobs.net/candidato.foto?id_candidato=${profile?.curriculum.code}&CameFrom=perfil`} />
+               <AvatarImage className="object-cover" src={`https://www.infojobs.net/candidato.foto?id_candidato=${profile?.curriculum.code}&CameFrom=perfil`} />
                <AvatarFallback>IJ</AvatarFallback>
             </Avatar>
             <div className="space-y-2">
