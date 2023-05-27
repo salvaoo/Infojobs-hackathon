@@ -1,11 +1,9 @@
 import { AlertCircle } from "lucide-react"
-import { getServerSession } from "next-auth"
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { ProfileProps } from "@/types/profile"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { fontSans } from "@/lib/fonts"
-import { authOptions } from "@/lib/auth"
 
 
 // This function fetches the profile data from the server
@@ -20,9 +18,9 @@ const getProfile = async () => {
 export const Profile = async () => {
    // const session = await getServerSession(authOptions)
    const profile = await getProfile()
-   
+
    // If session is undefined, show the login button
-   if (profile?.curriculum.id === 0) {
+   if (!profile) {
       return (
          <Alert>
             <AlertCircle className="h-4 w-4" />
