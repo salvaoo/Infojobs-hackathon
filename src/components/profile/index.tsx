@@ -25,10 +25,8 @@ export const Profile = async () => {
    const profile = await getProfile()
 
    console.log(profile);
-   
 
-   // If session is undefined, show the login button
-   if (profile.error === 'Not authenticated') {
+   if (profile?.error) {
       return (
          <Alert>
             <AlertCircle className="h-4 w-4" />
@@ -40,7 +38,6 @@ export const Profile = async () => {
       )
    }
 
-   // If session is defined, show the profile information
    return (
       <section className={`${fontSans.className}`}>
          <div className="flex flex-col gap-3 justify-center items-center">
