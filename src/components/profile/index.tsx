@@ -19,8 +19,11 @@ export const Profile = async () => {
    // const session = await getServerSession(authOptions)
    const profile = await getProfile()
 
+   console.log(profile);
+   
+
    // If session is undefined, show the login button
-   if (!profile) {
+   if (profile.error) {
       return (
          <Alert>
             <AlertCircle className="h-4 w-4" />

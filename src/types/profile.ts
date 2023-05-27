@@ -11,6 +11,7 @@ export interface ProfileProps {
    futurejob:    Futurejob;
    personaldata: Personaldata;
    skill:        Skill;
+   error?:       string;
 }
 
 export interface Curriculum {
