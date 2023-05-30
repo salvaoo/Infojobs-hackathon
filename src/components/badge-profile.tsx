@@ -10,7 +10,7 @@ export const BadgeProfile = ({ key, skill }: {
    key: number,
    skill: string
 }) => {
-   const [profile, setProfile] = useRecoilState(profileState)
+   const [profile] = useRecoilState(profileState)
 
    let variant: Level | "default" = "default"
 

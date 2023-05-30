@@ -1,3 +1,5 @@
+import { Suspense } from "react"
+
 import {
    Card,
    CardContent,
@@ -7,11 +9,9 @@ import {
    CardTitle,
 } from "@/components/ui/card"
 import { Item, offersDetailsProps } from "@/types/offers"
-import { Badge, BadgeProps } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Level, ProfileProps } from "@/types/profile"
 import { BadgeProfile } from "@/components/badge-profile"
 
 export const getOfferDetails = async (id: string) => {
@@ -37,7 +37,7 @@ export const OfferCard = async ({ key, offer }: {
 }) => {
    const offerDetails = await getOfferDetails(offer.id);
    const initial = offer.author.name.charAt(0)
-   
+
    return (
       <Link key={key} href={`/offer/${offer.id}`}>
          <Card className="w-full hover:scale-105 duration-300 ease-in-out transition-transform" key={key}>
@@ -58,7 +58,9 @@ export const OfferCard = async ({ key, offer }: {
                {offerDetails.skillsList?.length > 0 && (
                   <div className="space-y-2 mt-3">
                      {offerDetails.skillsList.map((skill, index) => (
-                        <BadgeProfile key={index} skill={skill.skill} />
+                        <Suspense fallback={<div>badges...</div>}>
+                           <BadgeProfile key={index} skill={skill.skill} />
+                        </Suspense>
                      ))}
                   </div>
                )}
