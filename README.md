@@ -1,34 +1,11 @@
-# Next.js Template | TypeScript
+# InfoJobs Hackathon
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Este proyecto es una participación en la hackathon organizada por midudev y infojobs. 
 
-## Getting Started
+## Descripción
 
-First, run the development server:
+No he tenido mucho tiempo pero he trabajado en una interfaz mas clara y sencilla a la hora de buscar ofertas de trabajo. Esta incluye varias funcionalidades como [__Parallel Routes__](https://nextjs.org/docs/app/building-your-application/routing/parallel-routes) en las ofertas de trabajo y hablidades requiridas de las ofertas remarcadas según tus habilidades.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+Las ofertas son obtenidas de la API de infoJobs igual que el perfil cuando accedes.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `src/app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [shadcn/ui](https://ui.shadcn.com) to provide a beautiful components and a dark mode.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+> Esta aplicación no cambia ninguna información de tu perfil ni recopila ningún dato del mismo.
