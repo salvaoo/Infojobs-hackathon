@@ -23,10 +23,10 @@ export default function OfferFrame(
                <p className="text-sm text-muted-foreground">{offer.profile.name}</p>
             </div>
          </div>
-         <div className="mt-7">
+         <div className="my-7">
             <p className="whitespace-pre-line cursor-pointer">{offer.description}</p>
          </div>
-         <Link  href={offer.link}>
+         <Link href={offer.link} target="_blank">
             <Button>Aplicar</Button>
          </Link>
       </article>
