@@ -2,6 +2,7 @@ import { offersDetailsProps } from "@/types/offers";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import  Link from "next/link"
+import { Icons } from "@/components/icons";
 
 export default function OfferFrame(
    { offer }:
@@ -20,7 +21,21 @@ export default function OfferFrame(
             </div>
             <div className="space-y-2">
                <h3 className="text-xl font-semibold leading-none tracking-tight">{offer.title}</h3>
-               <p className="text-sm text-muted-foreground">{offer.profile.name}</p>
+               <div className="text-xs mt-2 text-muted-foreground">
+               <div className="flex flex-row flex-wrap gap-3">
+                           <span className="flex flex-row justify-center gap-1">
+                              <Icons.location className="w-4 h-4" /> {offer.city}
+                           </span> 
+                           <span>Contrato {offer?.contractType?.value}</span> 
+                           <span>Jornada {offer?.journey?.value}</span> 
+                           <span>{offer?.experienceMin?.value}</span>
+                           {offer?.salaryDescription ? (
+                              <span>{offer?.salaryDescription}</span>
+                           ) : (
+                              <span>Salario no disponible</span>
+                           )}
+                        </div>
+               </div>
             </div>
          </div>
          <div className="my-7">

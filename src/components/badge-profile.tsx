@@ -25,6 +25,4 @@ export const BadgeProfile = ({ key, skill }: {
    return (
       <Badge key={key} className={`mr-2`} variant={variant}>{skill}</Badge>
    )
-
-   
 }

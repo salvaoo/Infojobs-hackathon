@@ -13,6 +13,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { BadgeProfile } from "@/components/badge-profile"
+import { Icons } from "@/components/icons"
 
 export const getOfferDetails = async (id: string) => {
    const CLIENT = process.env.IJ_CLIENT_ID;
@@ -49,13 +50,27 @@ export const OfferCard = async ({ key, offer }: {
                   </Avatar>
                   <div>
                      <CardTitle>{offerDetails.title}</CardTitle>
-                     <CardDescription>{offer.author.name}</CardDescription>
+                     <CardDescription className="mt-2 text-xs">
+                        <div className="flex flex-row flex-wrap gap-3">
+                           <span className="flex flex-row justify-center gap-1">
+                              <Icons.location className="w-4 h-4" /> {offerDetails.city}
+                           </span> 
+                           <span>Contrato {offerDetails?.contractType?.value}</span> 
+                           <span>Jornada {offerDetails?.journey?.value}</span> 
+                           <span>{offerDetails?.experienceMin?.value}</span>
+                           {offer.salaryMin.value ? (
+                              <span>{offer.salaryMin.value.replace(/ /g, "")} - {offer.salaryMax.value.replace(/ /g, "")}</span>
+                           ) : (
+                              <span>Salario no disponible</span>
+                           )}
+                        </div>
+                     </CardDescription>
                   </div>
                </div>
             </CardHeader>
             <CardContent>
                <p className="whitespace-pre-line line-clamp-4 cursor-pointer">{offerDetails.description}</p>
-               {offerDetails.skillsList?.length > 0 && (
+               {offerDetails.skillsList.length > 0 && (
                   <div className="space-y-2 mt-3">
                      {offerDetails.skillsList.map((skill, index) => (
                         <Suspense fallback={<div>badges...</div>}>
