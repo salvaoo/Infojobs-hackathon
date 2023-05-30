@@ -38,6 +38,8 @@ export const OfferCard = async ({ key, offer, profile }: {
    const offerDetails = await getOfferDetails(offer.id);
    const initial = offer.author.name.charAt(0)
 
+   console.log('profile(offerCard): ', profile);
+   
    return (
       <Link key={key} href={`/offer/${offer.id}`}>
          <Card className="w-full hover:scale-105 duration-300 ease-in-out transition-transform" key={key}>
@@ -68,7 +70,9 @@ export const OfferCard = async ({ key, offer, profile }: {
                         }
 
                         if (variant === undefined) {
-                           <Badge key={index} className={`mr-2`}>{skill.skill}</Badge>
+                           return (
+                              <Badge key={index} className={`mr-2`}>{skill.skill}</Badge>
+                           )
                         } else {
                            return (
                               <Badge key={index} className={`mr-2`} variant={variant}>{skill.skill}</Badge>
