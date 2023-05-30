@@ -50,7 +50,7 @@ export const Profile = () => {
       )
    }
 
-   if (!profile?.curriculum && !candidate) {
+   if (!profile && !candidate) {
       return (
          <div className="w-full h-full flex items-center justify-center">
             <DotPulse
@@ -72,7 +72,7 @@ export const Profile = () => {
             </Avatar>
             <div className="space-y-2">
                <h2 className="text-lg font-semibold leading-none tracking-tight">{profile?.curriculum?.name}</h2>
-               <p className="text-sm text-muted-foreground">{profile?.experience[0]?.onCourse && profile?.experience[0]?.job}</p>
+               {(profile?.experience && profile?.experience.length > 0) ?? <p className="text-sm text-muted-foreground">{profile?.experience[0]?.onCourse && profile?.experience[0]?.job}</p>}
             </div>
          </div>
          {/* Personal data */}
