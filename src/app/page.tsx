@@ -3,6 +3,9 @@ import { OfferCard } from "@/components/offerCard"
 import { Container } from "@/components/layouts"
 import { Profile } from "@/components/profile"
 import { Suspense } from "react"
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { ProfileProps } from "@/types/profile"
 
 const getOffers = async () => {
   const CLIENT = process.env.IJ_CLIENT_ID;
@@ -24,7 +27,27 @@ const getOffers = async () => {
   return offers;
 }
 
+const getProfile = async () => {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/curriculum`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  })
+  const profile = await res.json() as ProfileProps
+
+  // Returns an object with all the profile data
+  return profile
+}
+
 export default async function IndexPage() {
+  const session = await getServerSession(authOptions)
+  let profile: ProfileProps | null
+  if (session) {
+    profile = await getProfile()
+  } else {
+    profile = null
+  }
 
   const offers = await getOffers();
 
@@ -34,7 +57,7 @@ export default async function IndexPage() {
         <Container className="md:col-span-2 min-h-screen">
           <div className="space-y-5">
             {offers?.items?.map(async (offer, index) => {
-              const offerCard = await OfferCard({ key: index, offer: offer });
+              const offerCard = await OfferCard({ key: index, offer: offer, profile: profile });
               return offerCard;
             })}
           </div>
