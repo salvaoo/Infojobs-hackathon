@@ -18,6 +18,8 @@ export const Profile = () => {
    const [profile, setProfile] = useState<ProfileProps>()
    const [candidate, setCandidate] = useState<CandidateType>()
 
+   const colors = badgeColors
+
    useEffect(() => {
       fetch(`${process.env.NEXT_PUBLIC_URL}/api/curriculum`, {
          method: 'GET',
@@ -91,7 +93,7 @@ export const Profile = () => {
          <div className="mt-5 space-y-1">
             <h3 className="text-base font-semibold text-foreground mb-1">Habilidades:</h3>
             {profile?.skill.expertise.map((skill, index) => {
-               const color = badgeColors[skill.level] || badgeColors['default']
+               const color = colors[skill.level] || colors['default']
                return (
                   <Badge key={index} className={`mr-2 ${color}`}>{skill.skill}</Badge>
                )

@@ -39,6 +39,8 @@ export const OfferCard = async ({ key, offer, profile }: {
    const offerDetails = await getOfferDetails(offer.id);
    const initial = offer.author.name.charAt(0)
 
+   const colors = badgeColors
+
    return (
       <Link key={key} href={`/offer/${offer.id}`}>
          <Card className="w-full hover:scale-105 duration-300 ease-in-out transition-transform" key={key}>
@@ -59,11 +61,11 @@ export const OfferCard = async ({ key, offer, profile }: {
                {offerDetails.skillsList?.length > 0 && (
                   <div className="space-y-2 mt-3">
                      {offerDetails.skillsList.map((skill, index) => {
-                        let color = badgeColors.default;
+                        let color = colors.default;
                         if (profile != null) {
                            profile?.skill?.expertise.forEach((profileSkill) => {
                               if (profileSkill.skill === skill.skill) {
-                                 color = badgeColors[profileSkill.level]
+                                 color = colors[profileSkill.level]
                               }
                            })
                         }
