@@ -16,7 +16,7 @@ import { authOptions } from "@/lib/auth"
 import { ProfileProps } from "@/types/profile"
 
 import { badgeColors } from '@/lib/const'
-import { curriculum } from "@/lib/data"
+// import { curriculum } from "@/lib/data"
 
 export const getOfferDetails = async (id: string) => {
    const CLIENT = process.env.IJ_CLIENT_ID;
@@ -57,7 +57,7 @@ export async function OfferCard({ key, offer }: {
    if (session) {
       profile = await getProfile()
    } else {
-      profile = curriculum
+      profile = null
    }
 
    const offerDetails = await getOfferDetails(offer.id);
