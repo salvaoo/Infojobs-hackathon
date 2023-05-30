@@ -67,7 +67,7 @@ export const Profile = () => {
          {/* Photo and details */}
          <div className="flex flex-row gap-4 justify-center items-center">
             <Avatar className="w-16 h-16">
-               <AvatarImage className="object-cover" src={`https://www.infojobs.net/candidato.foto?id_candidato=${profile?.curriculum.code}&CameFrom=perfil`} />
+               <AvatarImage className="object-cover" src={`${candidate?.candidate.photo}&CameFrom=perfil`} />
                <AvatarFallback>IJ</AvatarFallback>
             </Avatar>
             <div className="space-y-2">
@@ -80,7 +80,7 @@ export const Profile = () => {
             <h3 className="text-base font-semibold text-foreground mb-1">Datos personales:</h3>
             <div className="flex flex-col gap-1">
                <p className="text-sm text-muted-foreground"><span className="text-foreground">Email: </span>{profile?.personaldata?.email}</p>
-               <p className="text-sm text-muted-foreground"><span className="text-foreground">Residencia: </span>{`${candidate?.candidate.city}, ${profile?.personaldata.country.charAt(0).toUpperCase()}${profile?.personaldata.country.slice(1).toLowerCase()}`}</p>
+               <p className="text-sm text-muted-foreground"><span className="text-foreground">Residencia: </span>{`${candidate?.candidate.city}, ${profile?.personaldata?.country.charAt(0).toUpperCase()}${profile?.personaldata?.country.slice(1).toLowerCase()}`}</p>
                <p className="text-sm text-muted-foreground"></p>
             </div>
          </div>
