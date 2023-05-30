@@ -31,15 +31,12 @@ export const getOfferDetails = async (id: string) => {
    return offerDetails;
 }
 
-export const OfferCard = async ({ key, offer, profile }: {
+export const OfferCard = async ({ key, offer }: {
    key: number,
-   offer: Item,
-   profile: ProfileProps | null
+   offer: Item
 }) => {
    const offerDetails = await getOfferDetails(offer.id);
    const initial = offer.author.name.charAt(0)
-
-   console.log('profile(offerCard): ', profile);
    
    return (
       <Link key={key} href={`/offer/${offer.id}`}>
