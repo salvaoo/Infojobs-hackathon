@@ -1,5 +1,7 @@
 import { offersDetailsProps } from "@/types/offers";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import  Link from "next/link"
 
 export default function OfferFrame(
    { offer }:
@@ -24,6 +26,9 @@ export default function OfferFrame(
          <div className="mt-7">
             <p className="whitespace-pre-line cursor-pointer">{offer.description}</p>
          </div>
+         <Link  href={offer.link}>
+            <Button>Aplicar</Button>
+         </Link>
       </article>
    );
 }
