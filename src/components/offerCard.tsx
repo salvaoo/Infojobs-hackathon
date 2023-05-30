@@ -11,7 +11,12 @@ import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { getServerSession } from "next-auth"
+import { authOptions } from "@/lib/auth"
+import { ProfileProps } from "@/types/profile"
 
+import { badgeColors } from '@/lib/const'
+import { curriculum } from "@/lib/data"
 
 export const getOfferDetails = async (id: string) => {
    const CLIENT = process.env.IJ_CLIENT_ID;
@@ -30,11 +35,31 @@ export const getOfferDetails = async (id: string) => {
    return offerDetails;
 }
 
+const getProfile = async () => {
+   const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/curriculum`, {
+      method: 'GET',
+      headers: {
+         'Content-Type': 'application/json',
+      }
+   })
+   const profile = await res.json() as ProfileProps
+
+   return profile
+}
+
 
 export async function OfferCard({ key, offer }: {
    key: number,
    offer: Item
 }) {
+   const session = await getServerSession(authOptions)
+   let profile: ProfileProps | null;
+   if (session) {
+      profile = await getProfile()
+   } else {
+      profile = curriculum
+   }
+
    const offerDetails = await getOfferDetails(offer.id);
    const initial = offer.author.name.charAt(0)
 
@@ -57,9 +82,19 @@ export async function OfferCard({ key, offer }: {
                <p className="whitespace-pre-line line-clamp-4 cursor-pointer">{offerDetails.description}</p>
                {offerDetails.skillsList?.length > 0 && (
                   <div className="space-y-2 mt-3">
-                     {offerDetails.skillsList.map((skill, index) => (
-                        <Badge key={index} className="mr-2 bg-primary/10 border-primary text-primary">{skill.skill}</Badge>
-                     ))}
+                     {offerDetails.skillsList.map((skill, index) => {
+                        let color = badgeColors.default;
+                        if (profile) {
+                           profile.skill.expertise.forEach((profileSkill) => {
+                              if (profileSkill.skill === skill.skill) {
+                                 color = badgeColors[profileSkill.level]
+                              }
+                           })
+                        }
+                        return (
+                           <Badge key={index} className={`mr-2 ${color}`}>{skill.skill}</Badge>
+                        )
+                     })}
                   </div>
                )}
             </CardContent>

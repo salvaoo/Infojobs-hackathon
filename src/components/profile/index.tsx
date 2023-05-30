@@ -3,32 +3,20 @@
 import { AlertCircle } from "lucide-react"
 import { useEffect, useState } from "react"
 import { useSession } from "next-auth/react"
-
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { ProfileProps } from "@/types/profile"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { fontSans } from "@/lib/fonts"
-
 import { DotPulse } from '@uiball/loaders'
 
-
-// This function fetches the profile data from the server
-// const getProfile = async () => {
-//    const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/curriculum`, {
-//       method: 'GET',
-//       headers: {
-//          'Content-Type': 'application/json',
-//       }
-//    })
-//    const profile = await res.json() as ProfileProps
-
-//    // Returns an object with all the profile data
-//    return profile
-// }
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { CandidateType, ProfileProps } from "@/types/profile"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { fontSans } from "@/lib/fonts"
+import { Badge } from "@/components/ui/badge"
+import { badgeColors } from '@/lib/const'
+// import { candidate as candidateData, curriculum } from "@/lib/data"
 
 export const Profile = () => {
    const { data: session } = useSession();
    const [profile, setProfile] = useState<ProfileProps>()
+   const [candidate, setCandidate] = useState<CandidateType>()
 
    useEffect(() => {
       fetch(`${process.env.NEXT_PUBLIC_URL}/api/curriculum`, {
@@ -38,6 +26,14 @@ export const Profile = () => {
          }
       }).then(res => res.json())
          .then(data => setProfile(data))
+
+      fetch(`${process.env.NEXT_PUBLIC_URL}/api/candidate`, {
+         method: 'GET',
+         headers: {
+            'Content-Type': 'application/json',
+         }
+      }).then(res => res.json())
+         .then(data => setCandidate(data))
    }, [])
 
    if (!session) {
@@ -52,7 +48,7 @@ export const Profile = () => {
       )
    }
 
-   if (!profile) {
+   if (!profile && !candidate) {
       return (
          <div className="w-full h-full flex items-center justify-center">
             <DotPulse
@@ -66,8 +62,9 @@ export const Profile = () => {
 
    return (
       <section className={`${fontSans.className}`}>
-         <div className="flex flex-col gap-3 justify-center items-center">
-            <Avatar className="w-20 h-20">
+         {/* Photo and details */}
+         <div className="flex flex-row gap-4 justify-center items-center">
+            <Avatar className="w-16 h-16">
                <AvatarImage className="object-cover" src={`https://www.infojobs.net/candidato.foto?id_candidato=${profile?.curriculum.code}&CameFrom=perfil`} />
                <AvatarFallback>IJ</AvatarFallback>
             </Avatar>
@@ -75,6 +72,30 @@ export const Profile = () => {
                <h2 className="text-lg font-semibold leading-none tracking-tight">{profile?.curriculum?.name}</h2>
                <p className="text-sm text-muted-foreground">{profile?.experience[0]?.onCourse && profile?.experience[0]?.job}</p>
             </div>
+         </div>
+         {/* Personal data */}
+         <div className="mt-5">
+            <h3 className="text-base font-semibold text-foreground mb-1">Datos personales:</h3>
+            <div className="flex flex-col gap-1">
+               <p className="text-sm text-muted-foreground"><span className="text-foreground">Email: </span>{profile?.personaldata?.email}</p>
+               <p className="text-sm text-muted-foreground"><span className="text-foreground">Residencia: </span>{`${candidate?.candidate.city}, ${profile?.personaldata.country.charAt(0).toUpperCase()}${profile?.personaldata.country.slice(1).toLowerCase()}`}</p>
+               <p className="text-sm text-muted-foreground"></p>
+            </div>
+         </div>
+         {/* About */}
+         <div className="mt-5">
+            <h3 className="text-base font-semibold text-foreground mb-1">Descripción:</h3>
+            <p className="text-sm text-foreground leading-relaxed">{profile?.cvText}</p>
+         </div>
+         {/* Skills */}
+         <div className="mt-5 space-y-1">
+            <h3 className="text-base font-semibold text-foreground mb-1">Habilidades:</h3>
+            {profile?.skill.expertise.map((skill, index) => {
+               const badgeColor = badgeColors[skill.level] || badgeColors['default']
+               return (
+                  <Badge key={index} className={`mr-2 ${badgeColor}`}>{skill.skill}</Badge>
+               )
+            })}
          </div>
       </section>
    )
