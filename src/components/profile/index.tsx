@@ -4,17 +4,20 @@ import { AlertCircle } from "lucide-react"
 import { useEffect, useState } from "react"
 import { useSession } from "next-auth/react"
 import { DotPulse } from '@uiball/loaders'
+import { useRecoilState } from "recoil"
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { CandidateType, ProfileProps } from "@/types/profile"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { fontSans } from "@/lib/fonts"
 import { Badge } from "@/components/ui/badge"
+import { profileState } from "@/atoms/profile"
 // import { candidate as candidateData, curriculum } from "@/lib/data"
 
 export const Profile = () => {
    const { data: session } = useSession();
-   const [profile, setProfile] = useState<ProfileProps>()
+   // const [profile, setProfile] = useState<ProfileProps>()
+   const [profile, setProfile] = useRecoilState(profileState)
    const [candidate, setCandidate] = useState<CandidateType>()
 
    useEffect(() => {

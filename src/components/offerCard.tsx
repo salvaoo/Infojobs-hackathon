@@ -12,6 +12,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Level, ProfileProps } from "@/types/profile"
+import { BadgeProfile } from "@/components/badge-profile"
 
 export const getOfferDetails = async (id: string) => {
    const CLIENT = process.env.IJ_CLIENT_ID;
@@ -59,26 +60,9 @@ export const OfferCard = async ({ key, offer, profile }: {
                <p className="whitespace-pre-line line-clamp-4 cursor-pointer">{offerDetails.description}</p>
                {offerDetails.skillsList?.length > 0 && (
                   <div className="space-y-2 mt-3">
-                     {offerDetails.skillsList.map((skill, index) => {
-                        let variant
-                        if (profile != null) {
-                           profile?.skill?.expertise.forEach((profileSkill) => {
-                              if (profileSkill.skill === skill.skill) {
-                                 variant = profileSkill.level
-                              }
-                           })
-                        }
-
-                        if (variant === undefined) {
-                           return (
-                              <Badge key={index} className={`mr-2`}>{skill.skill}</Badge>
-                           )
-                        } else {
-                           return (
-                              <Badge key={index} className={`mr-2`} variant={variant}>{skill.skill}</Badge>
-                           )
-                        }
-                     })}
+                     {offerDetails.skillsList.map((skill, index) => (
+                        <BadgeProfile key={index} skill={skill.skill} />
+                     ))}
                   </div>
                )}
             </CardContent>
