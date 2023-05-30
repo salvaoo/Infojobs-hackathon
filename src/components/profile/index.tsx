@@ -50,7 +50,7 @@ export const Profile = () => {
       )
    }
 
-   if (!profile && !candidate) {
+   if (!profile?.curriculum && !candidate) {
       return (
          <div className="w-full h-full flex items-center justify-center">
             <DotPulse
