@@ -50,7 +50,7 @@ export const Profile = () => {
       )
    }
 
-   if (!profile && !candidate) {
+   if (profile?.curriculum.id === 0 && !candidate) {
       return (
          <div className="w-full h-full flex items-center justify-center">
             <DotPulse
@@ -65,14 +65,14 @@ export const Profile = () => {
    return (
       <section className={`${fontSans.className}`}>
          {/* Photo and details */}
-         <div className="flex flex-row gap-4 justify-center items-center">
+         <div className="flex flex-row gap-4 justify-center items-start">
             <Avatar className="w-16 h-16">
                <AvatarImage className="object-cover" src={`${candidate?.candidate.photo}&CameFrom=perfil`} />
                <AvatarFallback>IJ</AvatarFallback>
             </Avatar>
             <div className="space-y-2">
                <h2 className="text-lg font-semibold leading-none tracking-tight">{profile?.curriculum?.name}</h2>
-               {(profile?.experience && profile?.experience.length > 0) ?? <p className="text-sm text-muted-foreground">{profile?.experience[0]?.onCourse && profile?.experience[0]?.job}</p>}
+               <p className="text-sm text-muted-foreground">{profile?.experience[0]?.onCourse && profile?.experience[0]?.job}</p>
             </div>
          </div>
          {/* Personal data */}
