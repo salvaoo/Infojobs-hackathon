@@ -60,13 +60,13 @@ export const OfferCard = async ({ key, offer, profile }: {
                   <div className="space-y-2 mt-3">
                      {offerDetails.skillsList.map((skill, index) => {
                         let color = badgeColors.default;
-                        // if (profile) {
-                        //    profile.skill.expertise.forEach((profileSkill) => {
-                        //       if (profileSkill.skill === skill.skill) {
-                        //          color = badgeColors[profileSkill.level]
-                        //       }
-                        //    })
-                        // }
+                        if (profile) {
+                           profile.skill.expertise.forEach((profileSkill) => {
+                              if (profileSkill.skill === skill.skill) {
+                                 color = badgeColors[profileSkill.level]
+                              }
+                           })
+                        }
                         return (
                            <Badge key={index} className={`mr-2 ${color}`}>{skill.skill}</Badge>
                         )
