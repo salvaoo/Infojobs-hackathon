@@ -42,11 +42,9 @@ const getProfile = async () => {
 
 export default async function IndexPage() {
   const session = await getServerSession(authOptions)
-  let profile: ProfileProps | null
+  let profile: ProfileProps | null = null
   if (session) {
     profile = await getProfile()
-  } else {
-    profile = null
   }
 
   const offers = await getOffers();
@@ -56,12 +54,10 @@ export default async function IndexPage() {
       <div className="relative grid grid-cols-1 md:grid-cols-3 gap-5">
         <Container className="md:col-span-2 min-h-screen">
           <div className="space-y-5">
-            {offers?.items?.map(async (offer, index) => (
-              <Suspense fallback={<p>Cargando ofertas...</p>}>
-                {/* @ts-expect-error Async Server Component */}
-                <OfferCard key={index} offer={offer} profile={profile} />
-              </Suspense>
-            ))}
+            {offers?.items?.map(async (offer, index) => {
+              const offerCard = await OfferCard({ key: index, offer: offer, profile: profile });
+              return offerCard;
+            })}
           </div>
         </Container>
         <Container className="sticky top-5 md:col-span-1 h-fit hidden md:block">
