@@ -7,12 +7,11 @@ import {
    CardTitle,
 } from "@/components/ui/card"
 import { Item, offersDetailsProps } from "@/types/offers"
-import { Badge } from "@/components/ui/badge"
+import { Badge, BadgeProps } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { badgeColors } from '@/lib/const'
-import { ProfileProps } from "@/types/profile"
+import { Level, ProfileProps } from "@/types/profile"
 
 export const getOfferDetails = async (id: string) => {
    const CLIENT = process.env.IJ_CLIENT_ID;
@@ -39,8 +38,6 @@ export const OfferCard = async ({ key, offer, profile }: {
    const offerDetails = await getOfferDetails(offer.id);
    const initial = offer.author.name.charAt(0)
 
-   const colors = badgeColors
-
    return (
       <Link key={key} href={`/offer/${offer.id}`}>
          <Card className="w-full hover:scale-105 duration-300 ease-in-out transition-transform" key={key}>
@@ -61,17 +58,22 @@ export const OfferCard = async ({ key, offer, profile }: {
                {offerDetails.skillsList?.length > 0 && (
                   <div className="space-y-2 mt-3">
                      {offerDetails.skillsList.map((skill, index) => {
-                        let color = colors.default;
+                        let variant
                         if (profile != null) {
                            profile?.skill?.expertise.forEach((profileSkill) => {
                               if (profileSkill.skill === skill.skill) {
-                                 color = colors[profileSkill.level]
+                                 variant = profileSkill.level
                               }
                            })
                         }
-                        return (
-                           <Badge key={index} className={`mr-2 ${color}`}>{skill.skill}</Badge>
-                        )
+
+                        if (variant === undefined) {
+                           <Badge key={index} className={`mr-2`}>{skill.skill}</Badge>
+                        } else {
+                           return (
+                              <Badge key={index} className={`mr-2`} variant={variant}>{skill.skill}</Badge>
+                           )
+                        }
                      })}
                   </div>
                )}

@@ -10,15 +10,12 @@ import { CandidateType, ProfileProps } from "@/types/profile"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { fontSans } from "@/lib/fonts"
 import { Badge } from "@/components/ui/badge"
-import { badgeColors } from '@/lib/const'
 // import { candidate as candidateData, curriculum } from "@/lib/data"
 
 export const Profile = () => {
    const { data: session } = useSession();
    const [profile, setProfile] = useState<ProfileProps>()
    const [candidate, setCandidate] = useState<CandidateType>()
-
-   const colors = badgeColors
 
    useEffect(() => {
       fetch(`${process.env.NEXT_PUBLIC_URL}/api/curriculum`, {
@@ -93,9 +90,9 @@ export const Profile = () => {
          <div className="mt-5 space-y-1">
             <h3 className="text-base font-semibold text-foreground mb-1">Habilidades:</h3>
             {profile?.skill.expertise.map((skill, index) => {
-               const color = colors[skill.level] || colors['default']
+               const variant = skill.level || 'default'
                return (
-                  <Badge key={index} className={`mr-2 ${color}`}>{skill.skill}</Badge>
+                  <Badge key={index} className={`mr-2`} variant={variant}>{skill.skill}</Badge>
                )
             })}
          </div>
