@@ -61,5 +61,5 @@ export const defaultProfile: ProfileProps = {
 
 export const profileState = atom({
    key: "profileState",
-   default: {} as ProfileProps,
+   default: defaultProfile as ProfileProps,
 })
