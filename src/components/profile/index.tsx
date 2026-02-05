@@ -36,7 +36,7 @@ export const Profile = () => {
          }
       }).then(res => res.json())
          .then(data => setCandidate(data))
-   }, [])
+   }, [setProfile])
 
    if (!session) {
       return (
