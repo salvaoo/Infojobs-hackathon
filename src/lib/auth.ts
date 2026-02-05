@@ -1,5 +1,5 @@
 import { NextAuthOptions } from "next-auth";
-import InfojobsProvider from "infojobs-next-auth-provider"
+import InfojobsProvider from "./infojobs-provider"
 
 export const authOptions: NextAuthOptions = {
    providers: [

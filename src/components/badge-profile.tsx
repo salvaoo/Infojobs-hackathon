@@ -1,8 +1,6 @@
 'use client'
 
-import { useRecoilState } from "recoil"
-
-import { profileState } from "@/atoms/profile"
+import { useProfileStore } from "@/stores/profile-store"
 import { Badge } from "@/components/ui/badge"
 import { Level } from "@/types/profile"
 
@@ -10,7 +8,7 @@ export const BadgeProfile = ({ key, skill }: {
    key: number,
    skill: string
 }) => {
-   const [profile] = useRecoilState(profileState)
+   const { profile } = useProfileStore()
 
    let variant: Level | "default" = "default"
 

@@ -1,6 +1,5 @@
 import "@/styles/globals.css"
 import { Metadata } from "next"
-import { RecoilRoot } from "@/components/recoil-root"
 
 import { siteConfig } from "@/config/site"
 import { fontSans } from "@/lib/fonts"
@@ -46,16 +45,14 @@ export default function RootLayout({ children, offerModal }: RootLayoutProps) {
             fontSans.variable
           )}
         >
-          <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+          <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
             <NextAuthProvider>
-              <RecoilRoot>
-                <div className="relative flex min-h-screen flex-col">
-                  <SiteHeader />
-                  <div className="flex-1">{children}</div>
-                </div>
-                {offerModal}
-                <TailwindIndicator />
-              </RecoilRoot>
+              <div className="relative flex min-h-screen flex-col">
+                <SiteHeader />
+                <div className="flex-1">{children}</div>
+              </div>
+              {offerModal}
+              <TailwindIndicator />
             </NextAuthProvider>
           </ThemeProvider>
         </body>
