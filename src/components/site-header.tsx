@@ -20,7 +20,6 @@ export function SiteHeader() {
             />
           }
         >
-          {/* @ts-expect-error Async Server Component */}
           <ProfileHeader />
         </Suspense>
       </div>

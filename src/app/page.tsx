@@ -32,9 +32,8 @@ export default async function IndexPage() {
       <div className="relative grid grid-cols-1 md:grid-cols-3 gap-5">
         <Container className="md:col-span-2 min-h-screen">
           <div className="space-y-5">
-            {offers?.items?.map(async (offer, index) => (
-              <Suspense fallback={<div>Loading...</div>}>
-                {/* @ts-expect-error Async Server Component */}
+            {offers?.items?.map((offer, index) => (
+              <Suspense key={index} fallback={<div>Loading...</div>}>
                 <OfferCard key={index} offer={offer} />
               </Suspense>
             ))}

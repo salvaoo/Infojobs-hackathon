@@ -5,10 +5,10 @@ import {
    SunMedium,
    Twitter,
    MapPin,
-   type Icon as LucideIcon,
  } from "lucide-react"
+import type { ComponentType } from "react"
  
- export type Icon = LucideIcon
+ export type Icon = ComponentType<LucideProps>
  
  export const Icons = {
    sun: SunMedium,

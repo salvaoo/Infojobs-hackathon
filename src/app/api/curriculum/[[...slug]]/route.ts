@@ -8,7 +8,7 @@ export async function GET(
    {
       params,
    }: {
-      params: { slug: string };
+      params: Promise<{ slug?: string[] }>;
    },
 ) {
    const session = await getServerSession(authOptions)
@@ -16,7 +16,8 @@ export async function GET(
    if (!session) {
       return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
    }
-   const slug = params.slug;
+   const resolvedParams = await params;
+   const slug = resolvedParams.slug;
 
    // return NextResponse.json({ slug, session })
 
